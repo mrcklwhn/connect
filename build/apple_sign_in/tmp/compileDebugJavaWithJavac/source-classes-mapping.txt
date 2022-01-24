@@ -1,0 +1,4 @@
+dev/gilder/tom/apple_sign_in/AppleSignInPlugin.java
+ dev.gilder.tom.apple_sign_in.AppleSignInPlugin
+dev/gilder/tom/apple_sign_in/BuildConfig.java
+ dev.gilder.tom.apple_sign_in.BuildConfig

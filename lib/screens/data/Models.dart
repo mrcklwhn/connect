@@ -15,7 +15,8 @@ class ContactUser {
     this.imageUrl,
     this.id,
     this.lastOnline,
-    this.description,});
+    this.description,
+  });
 
   factory ContactUser.fromJson(Map<String, dynamic> jsonData) {
     return ContactUser(
@@ -28,18 +29,18 @@ class ContactUser {
   }
 
   static Map<String, dynamic> toMap(ContactUser user) => {
-    'id': user.id,
-    'name': user.name,
-    'imageUrl': user.imageUrl,
-    'lastOnline': user.lastOnline,
-    'description': user.description,
-  };
+        'id': user.id,
+        'name': user.name,
+        'imageUrl': user.imageUrl,
+        'lastOnline': user.lastOnline,
+        'description': user.description,
+      };
 
   static String encode(List<ContactUser> users) => json.encode(
-    users
-        .map<Map<String, dynamic>>((user) => ContactUser.toMap(user))
-        .toList(),
-  );
+        users
+            .map<Map<String, dynamic>>((user) => ContactUser.toMap(user))
+            .toList(),
+      );
 
   static List<ContactUser> decode(String users) =>
       (json.decode(users) as List<dynamic>)
@@ -57,15 +58,15 @@ class Message {
   String status;
   int id;
 
-  Message({
-    this.sender,
-    this.receiver,
-    this.messageText,
-    this.type,
-    this.status,
-    this.imageURL,
-    this.time,
-  this.id});
+  Message(
+      {this.sender,
+      this.receiver,
+      this.messageText,
+      this.type,
+      this.status,
+      this.imageURL,
+      this.time,
+      this.id});
 
   factory Message.fromJson(Map<String, dynamic> jsonData) {
     return Message(
@@ -81,22 +82,21 @@ class Message {
   }
 
   static Map<String, dynamic> toMap(Message message) => {
-    'sender': message.sender,
-    'receiver': message.receiver,
-    'messageText': message.messageText,
-    'type': message.type,
-    'status': message.status,
-    'imageURL': message.imageURL,
-    'time': message.time,
-
-    'id': message.id,
-  };
+        'sender': message.sender,
+        'receiver': message.receiver,
+        'messageText': message.messageText,
+        'type': message.type,
+        'status': message.status,
+        'imageURL': message.imageURL,
+        'time': message.time,
+        'id': message.id,
+      };
 
   static String encode(List<Message> messages) => json.encode(
-    messages
-        .map<Map<String, dynamic>>((message) => Message.toMap(message))
-        .toList(),
-  );
+        messages
+            .map<Map<String, dynamic>>((message) => Message.toMap(message))
+            .toList(),
+      );
 
   static List<Message> decode(String messages) =>
       (json.decode(messages) as List<dynamic>)
@@ -105,38 +105,30 @@ class Message {
 }
 
 class StoryTile extends StatelessWidget {
-
   final ContactUser contactUser;
 
   const StoryTile({Key key, this.contactUser}) : super(key: key);
 
-
-  Widget buildImage () {
-      if(!contactUser.imageUrl.startsWith("default_image")) {
-        return CircleAvatar(
-          radius: 38,
-          backgroundImage: CachedNetworkImageProvider(contactUser.imageUrl),
-        );
-      } else {
-        return CircleAvatar(
-          radius: 38,
-          foregroundImage: AssetImage("assets/images/user_icon_" + contactUser.imageUrl.substring(contactUser.imageUrl.length-1) + ".png"),
-        );
-      }
-
-
+  Widget buildImage() {
+    if (!contactUser.imageUrl.startsWith("default_image")) {
+      return CircleAvatar(
+        radius: 38,
+        backgroundImage: CachedNetworkImageProvider(contactUser.imageUrl),
+      );
+    } else {
+      return CircleAvatar(
+        radius: 38,
+        foregroundImage: AssetImage("assets/images/user_icon_" +
+            contactUser.imageUrl.substring(contactUser.imageUrl.length - 1) +
+            ".png"),
+      );
+    }
   }
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
-
-    Widget buildDot () {
-      if(contactUser.lastOnline == "online") {
+    Widget buildDot() {
+      if (contactUser.lastOnline == "online") {
         return Positioned(
           right: 0,
           bottom: 0,
@@ -147,9 +139,7 @@ class StoryTile extends StatelessWidget {
               color: Colors.green,
               shape: BoxShape.circle,
               border: Border.all(
-                  color: Theme.of(context)
-                      .scaffoldBackgroundColor,
-                  width: 3),
+                  color: Theme.of(context).scaffoldBackgroundColor, width: 3),
             ),
           ),
         );
@@ -166,15 +156,12 @@ class StoryTile extends StatelessWidget {
         }));
       },
       child: Container(
-        margin: EdgeInsets.only(right: 16),
         child: Column(
           children: <Widget>[
             Stack(
               children: [
-
-                        buildImage(),
-buildDot(),
-
+                buildImage(),
+                buildDot(),
 
                 // related_type_equality_checks
               ],
@@ -185,8 +172,9 @@ buildDot(),
             Text(
               contactUser.name.split(" ").first,
               style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             )
           ],
         ),
@@ -194,10 +182,3 @@ buildDot(),
     );
   }
 }
-
-
-
-
-
-
-

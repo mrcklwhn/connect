@@ -27,6 +27,7 @@ import 'logic/data/Database.dart';
 import 'logic/data/LocalData.dart';
 import 'logic/data/Messaging.dart';
 import 'logic/data/RouteBuilder.dart';
+import 'screens/groups/groups.dart';
 
 class AppleSignInAvailable {
   AppleSignInAvailable(this.isAvailable);
@@ -86,7 +87,12 @@ class _HomePageState extends State<HomePage>
 
   int currentIndex = 1;
 
-  List<Widget> screens = [ConversationsPage(), ContactsPage(), SettingsPage()];
+  List<Widget> screens = [
+    ConversationsPage(),
+    GroupsPage(),
+    ContactsPage(),
+    SettingsPage()
+  ];
 
   Future<bool> getAutoUpdateLastOnline() async {
     final databaseReference = FirebaseFirestore.instance;
@@ -311,10 +317,9 @@ class _HomePageState extends State<HomePage>
   @override
   void dispose() {
     super.dispose();
-    if(timer != null) {
-          timer.cancel();
-
-    } 
+    if (timer != null) {
+      timer.cancel();
+    }
 
     WidgetsBinding.instance.removeObserver(this);
   }
@@ -508,6 +513,18 @@ class _HomePageState extends State<HomePage>
                   ),
                   title: Text("Messages"),
                   selectedColor: Colors.orange,
+                ),
+
+                SalomonBottomBarItem(
+                  icon: Icon(
+                    Icons.groups_outlined,
+                  ),
+                  activeIcon: Icon(
+                    Icons.groups,
+                    color: Colors.blue,
+                  ),
+                  title: Text("Groups"),
+                  selectedColor: Colors.blue,
                 ),
 
                 /// Search

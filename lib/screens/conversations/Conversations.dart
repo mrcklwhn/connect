@@ -1,4 +1,3 @@
-
 import 'package:connect/logic/data/LocalData.dart';
 import 'package:connect/screens/checkup/authentication/AuthenticationPage.dart';
 import 'package:connect/screens/data/Models.dart';
@@ -18,8 +17,8 @@ class ConversationsPage extends StatefulWidget {
   _ConversationsPageState createState() => _ConversationsPageState();
 }
 
-class _ConversationsPageState extends State<ConversationsPage> with SingleTickerProviderStateMixin {
-
+class _ConversationsPageState extends State<ConversationsPage>
+    with SingleTickerProviderStateMixin {
   int currentIndex = 0;
 
   void onChangeIndex(int index) {
@@ -30,27 +29,29 @@ class _ConversationsPageState extends State<ConversationsPage> with SingleTicker
 
   // ignore: must_call_super
 
-
   buildFixedChats() {
-
-
-    if(LocalData.exitsString("conversation_pinned")) {
-      final String pinnedConversationsString = LocalData.getString(
-          "conversation_pinned");
+    if (LocalData.exitsString("conversation_pinned")) {
+      final String pinnedConversationsString =
+          LocalData.getString("conversation_pinned");
 
       final List<ContactUser> users =
-      ContactUser.decode(pinnedConversationsString);
-      if(users.length != 0) {
+          ContactUser.decode(pinnedConversationsString);
+      if (users.length != 0) {
         return Column(
           children: [
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               height: 120,
-              child: ListView.builder(
+              child: ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(
+                        width: 16,
+                      ),
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: ContactUser
-                      .decode(LocalData.getString("conversation_pinned"))
+                  itemCount: ContactUser.decode(
+                          LocalData.getString("conversation_pinned"))
                       .length,
                   itemBuilder: (context, index) {
                     return StoryTile(
@@ -61,7 +62,6 @@ class _ConversationsPageState extends State<ConversationsPage> with SingleTicker
                         description: users[index].description,
                       ),
                     );
-
                   }),
             ),
           ],
@@ -69,19 +69,13 @@ class _ConversationsPageState extends State<ConversationsPage> with SingleTicker
       }
     }
     return Center();
-
   }
 
   buildBody() {
-
-
-
     return Column(
       children: [
-
         // ignore: unrelated_type_equality_checks
         buildFixedChats(),
-
 
         buildLowerPart(),
       ],
@@ -92,14 +86,21 @@ class _ConversationsPageState extends State<ConversationsPage> with SingleTicker
     setState(() {});
   }
 
-
   Widget buildLowerPart() {
     if (currentIndex == 0) {
-      return RecentConversationsPage(currentIndex: currentIndex,onChangeIndex: onChangeIndex, updateParent: refresh,);
+      return RecentConversationsPage(
+        currentIndex: currentIndex,
+        onChangeIndex: onChangeIndex,
+        updateParent: refresh,
+      );
     } else if (currentIndex == 1) {
-      return ActiveConversationsPage(currentIndex: currentIndex,onChangeIndex: onChangeIndex,);
+      return ActiveConversationsPage(
+        currentIndex: currentIndex,
+        onChangeIndex: onChangeIndex,
+      );
     } else if (currentIndex == 2) {
-      return ArchivedConversationsPage(currentIndex: currentIndex,onChangeIndex: onChangeIndex);
+      return ArchivedConversationsPage(
+          currentIndex: currentIndex, onChangeIndex: onChangeIndex);
     }
     return Center();
   }
@@ -109,91 +110,101 @@ class _ConversationsPageState extends State<ConversationsPage> with SingleTicker
     // TODO: implement initState
     super.initState();
 
-
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       // Got a new connectivity status!
 
-      if(mounted) {
+      if (mounted) {
         if (result == ConnectivityResult.mobile) {
-
           Scaffold.of(context).showSnackBar(SnackBar(
               duration: Duration(seconds: 5),
               backgroundColor: Colors.indigoAccent,
-              content:Row(
+              content: Row(
                 children: [
-                  Spacer(flex: 1,),
-                  Icon(Icons.signal_cellular_alt_rounded, color: Colors.white,),
-
-                  Spacer(flex: 1,),
-                  Text("Connection to the internet was successful!",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
-                  Spacer(flex: 2,),
-
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Icon(
+                    Icons.signal_cellular_alt_rounded,
+                    color: Colors.white,
+                  ),
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Text(
+                    "Connection to the internet was successful!",
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  Spacer(
+                    flex: 2,
+                  ),
                 ],
-
-              )
-          ));
+              )));
           // I am connected to a mobile network.
         } else if (result == ConnectivityResult.wifi) {
           Scaffold.of(context).showSnackBar(SnackBar(
               duration: Duration(seconds: 5),
               backgroundColor: Colors.indigoAccent,
-              content:Row(
+              content: Row(
                 children: [
-                  Spacer(flex: 1,),
-
-                  Icon(CupertinoIcons.wifi, color: Colors.white,),
-
-                  Spacer(flex: 1,),
-                  Text("Connection to the internet was successful!",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
-                  Spacer(flex: 2,),
-
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Icon(
+                    CupertinoIcons.wifi,
+                    color: Colors.white,
+                  ),
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Text(
+                    "Connection to the internet was successful!",
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  Spacer(
+                    flex: 2,
+                  ),
                 ],
-
-              )
-          ));
+              )));
           // I am connected to a wifi network.
         } else if (result == ConnectivityResult.none) {
           Scaffold.of(context).showSnackBar(SnackBar(
               duration: Duration(seconds: 30),
               backgroundColor: Colors.red,
-              content:Row(
+              content: Row(
                 children: [
-                  Spacer(flex: 1,),
-
-                  Icon(CupertinoIcons.wifi_exclamationmark, color: Colors.white,),
-
-                  Spacer(flex: 1,),
-                  Text("Connection to the internet was unsuccessful!",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
-                  Spacer(flex: 2,),
-
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Icon(
+                    CupertinoIcons.wifi_exclamationmark,
+                    color: Colors.white,
+                  ),
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Text(
+                    "Connection to the internet was unsuccessful!",
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  Spacer(
+                    flex: 2,
+                  ),
                 ],
-
-              )
-          ));
+              )));
           // I am connected to a wifi network.
         }
       }
     });
   }
 
-
-
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: buildBody(),
     );
   }
 }
-
-
